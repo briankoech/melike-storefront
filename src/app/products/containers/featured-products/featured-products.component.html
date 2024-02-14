@@ -1,0 +1,84 @@
+<div class="relative bg-lime-50">
+  @for (
+    product of featuredProducts$ | async;
+    track product.id;
+    let idx = $index
+  ) {
+    @if (idx === selectedSlide) {
+      <div class="grid grid-cols-12 gap-3 p-7 bg-lime-50">
+        <div class="flex flex-col items-center justify-center gap-5">
+          @for (image of product.images; track image) {
+            <img
+              [src]="image"
+              alt="product image"
+              class="object-cover"
+              class="w-14 h-auto"
+            />
+          }
+        </div>
+        <div class="col-span-5 flex items-center">
+          <img
+            [src]="product.thumbnail"
+            [alt]="product.title"
+            class="object-cover"
+          />
+        </div>
+        <div class="col-span-6 flex flex-col ml-6">
+          <span class="flex items-center">
+            @for (idx of createRange(product.rating); track idx) {
+              <mat-icon class="text-sm text-lime-900">star</mat-icon>
+            }
+          </span>
+
+          <h1 class="text-2xl font-semibold">{{ product.title }}</h1>
+          <span class="text-xs font-semibold">{{ product.brand }}</span>
+          <span class="text-xl font-semibold text-lime-900 mt-2">{{
+            product.price | currency
+          }}</span>
+
+          <span class="text-sm font-semibold underline mt-5 mb-2"
+            >Description</span
+          >
+          <span class="text-xs font-normal text-gray-500">{{
+            product.description
+          }}</span>
+
+          <div class="mt-4 flex flex-row gap-5">
+            <div
+              class="flex flex-row gap-4 font-semibold text-sm items-center shadow border border-gray-500 py-1 px-2"
+            >
+              <span>Qnt</span>
+              <button type="button">-</button>
+              <span>1</span>
+              <button type="button">+</button>
+            </div>
+
+            <button
+              mat-flat-button
+              class="!text-white !bg-lime-900 !py-1 !shadow"
+              type="button"
+              (click)="addToCart(product)"
+            >
+              <span class="text-sm"> Add to Cart </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+  <button
+    type="button"
+    class="!absolute !top-1/2 !-translate-y-1/2 !-left-8 bg-lime-400 rounded-full w-12 h-12"
+    (click)="onPrevious()"
+  >
+    <mat-icon class="!text-2xl">chevron_left</mat-icon>
+  </button>
+  <button
+    type="button"
+    class="!absolute !top-1/2 !right-0 !-translate-y-1/2 bg-lime-400 rounded-full w-12 h-12"
+    (click)="onNext()"
+  >
+    <mat-icon class="text-3xl">chevron_right</mat-icon>
+  </button>
+</div>
