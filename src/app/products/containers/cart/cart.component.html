@@ -1,0 +1,56 @@
+<div>
+  <div class="grid grid-cols-12 bg-gray-100 p-3">
+    <div></div>
+
+    <div></div>
+
+    <span class="col-span-6 font-semibold uppercase">product</span>
+    <span class="text-lime-900 font-semibold uppercase">Price</span>
+
+    <span class="font-semibold uppercase col-span-2">Quantity</span>
+
+    <span class="font-semibold uppercase">Total</span>
+  </div>
+
+  @for (item of cartItems$ | async | keyvalue; track item.key) {
+    <ng-container *ngIf="item.value as data">
+      <div class="grid grid-cols-12 p-3 items-center">
+        <div>
+          <button
+            mat-icon-button
+            type="button"
+            (click)="removeFromCart(data.product)"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+
+        <div class="relative h-10 w-10 overflow-hidden">
+          <img
+            [src]="data.product.thumbnail"
+            [alt]="data.product.title"
+            class="h-10"
+          />
+        </div>
+
+        <div class="col-span-6">{{ data.product.title }}</div>
+        <span class="text-lime-900">{{ data.product.price | currency }}</span>
+
+        <div class="col-span-2 flex">
+          <app-quantity-updater
+            class="self-start"
+            [count]="data.quantity"
+            (increment)="addToCart(data.product)"
+            (decrement)="removeOneFromCart(data.product)"
+          />
+        </div>
+
+        <span>{{ data.product.price * data.quantity }}</span>
+      </div>
+    </ng-container>
+  } @empty {
+    <div class="text-center bg-blue-200 p-5 text-lg font-semibold rounded mt-4">
+      Your cart is empty
+    </div>
+  }
+</div>

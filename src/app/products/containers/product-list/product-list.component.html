@@ -1,1 +1,9 @@
-<p>product-list works!</p>
+<div class="grid grid-cols-4 gap-7">
+  @for (product of products$ | async; track product.id) {
+    <app-product-item
+      [product]="product"
+      (addToCart)="addToCart($event)"
+      class="shadow rounded-md"
+    />
+  }
+</div>

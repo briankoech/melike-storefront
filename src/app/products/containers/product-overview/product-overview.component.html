@@ -1,0 +1,3 @@
+@if (product$ | async; as product) {
+  <app-product-details [product]="product" (addToCart)="addToCart($event)" />
+}

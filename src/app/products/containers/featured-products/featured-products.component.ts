@@ -1,29 +1,15 @@
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ProductsFacade, loadFeaturedProducts } from '../../store';
-import { data } from '../data';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  JsonPipe,
-  NgFor,
-  PercentPipe,
-} from '@angular/common';
 import { Product } from '../../models';
+import { ProductsFacade } from '../../store';
+import { data } from '../data';
+import { ProductDetailsComponent } from '../../components';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-featured-products',
   standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    CurrencyPipe,
-    PercentPipe,
-    AsyncPipe,
-    JsonPipe,
-  ],
+  imports: [ProductDetailsComponent, MatIconModule, AsyncPipe, JsonPipe],
   templateUrl: './featured-products.component.html',
   styleUrl: './featured-products.component.scss',
 })
@@ -53,11 +39,7 @@ export class FeaturedProductsComponent implements OnInit {
     this.selectedSlide = currentSlide < 0 ? this.list.length - 1 : currentSlide;
   }
 
-  createRange(num: number) {
-    return new Array(Math.floor(num));
-  }
-
-  addToCart(product: Product) {
-    this.productsFacade.addToCart(product);
+  addToCart({ product, quantity }: { product: Product; quantity: number }) {
+    this.productsFacade.addToCart(product, quantity);
   }
 }

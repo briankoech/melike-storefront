@@ -5,7 +5,12 @@
       class="flex items-center justify-end gap-5 text-sm font-normal divide-x"
     >
       <a routerLink="/" class="py-2 px-3 hover:bg-gray-300"> Home </a>
-      <a routerLink="/store" class="py-2 px-3 hover:bg-gray-300"> Store </a>
+      <a
+        routerLink="/store"
+        class="py-2 px-3 hover:bg-gray-300 active:bg-gray-300 active:text-lime-900"
+      >
+        Store
+      </a>
       <a
         routerLink="/cart"
         [matBadge]="cartItemsCount$ | async"

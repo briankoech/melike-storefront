@@ -1,1 +1,38 @@
-<p>product-item works!</p>
+@if (product) {
+  <div class="overflow-hidden relative">
+    <a routerLink="/products/{{ product.id }}">
+      <div class="">
+        <img
+          [src]="product.thumbnail"
+          alt="product.title"
+          class="object-cover h-60 w-full"
+        />
+      </div>
+      <div class="flex flex-col items-start p-5">
+        <div
+          class="flex flex-row items-center justify-between mb-3 self-stretch"
+        >
+          <span class="text-xl font-semibold text-lime-700">{{
+            product.price | currency
+          }}</span>
+
+          <button
+            mat-flat-button
+            type="button"
+            class="!bg-lime-700 !text-white z-10 absolute"
+            (click)="onAddToCart(product)"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <span class="text-sm font-bold mb-1">{{ product.title }}</span>
+
+        <span class="text-slate-400 text-sm">{{ product.description }}</span>
+
+        <span class="text-xs text-slate-400 bg-gray-300 p-1 px-1 rounded">{{
+          product.brand
+        }}</span>
+      </div>
+    </a>
+  </div>
+}
