@@ -23,6 +23,11 @@ export const selectFeaturedProducts: MemoizedSelector<
   (state): Array<Product> => state.featuredProducts as Array<Product>,
 );
 
+export const selectFeaturedProductsCount: MemoizedSelector<AppState, number> =
+  createSelector(selectFeaturedProducts, (state): number =>
+    state.reduce((acc, item) => acc + 1, 0),
+  );
+
 export const selectProducts: MemoizedSelector<
   AppState,
   Array<Product>
@@ -42,4 +47,12 @@ export const selectCartItems: MemoizedSelector<
 export const selectCartItemsCount: MemoizedSelector<AppState, number> =
   createSelector(selectCartItems, (items): number => {
     return Object.values(items).reduce((acc, item) => acc + item.quantity, 0);
+  });
+
+export const selectCartTotal: MemoizedSelector<AppState, number> =
+  createSelector(selectCartItems, (items): number => {
+    return Object.values(items).reduce(
+      (acc, item) => acc + item.quantity * item.product.price,
+      0,
+    );
   });

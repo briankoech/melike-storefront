@@ -20,7 +20,6 @@ export const fetchFeaturedProducts = createEffect(
       ofType(loadFeaturedProducts),
       mergeMap((pageInfo: PageInfo) =>
         productsService.getProducts(pageInfo).pipe(
-          tap((rs: any) => console.log(rs)),
           map(({ products }: { products: Array<Product> }) =>
             loadFeaturedProductsSuccess({ data: products }),
           ),
@@ -38,7 +37,6 @@ export const fetchProducts = createEffect(
       ofType(loadProducts),
       mergeMap((pageInfo: PageInfo) =>
         productsService.getProducts(pageInfo).pipe(
-          tap((rs: any) => console.log(rs)),
           map(({ products }: { products: Array<Product> }) =>
             loadProductsSuccess({ data: products }),
           ),

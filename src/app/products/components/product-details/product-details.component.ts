@@ -25,7 +25,8 @@ export class ProductDetailsComponent {
     quantity: number;
   }>();
 
-  count = signal(1);
+  count = signal<number>(1);
+  selectedImage = signal<string | null>(null);
 
   createRange(num: number) {
     return new Array(Math.floor(num));
@@ -41,5 +42,9 @@ export class ProductDetailsComponent {
 
   decrement() {
     this.count.update((value) => (value === 1 ? value : value - 1));
+  }
+
+  updateSelectedImage(image: string) {
+    this.selectedImage.set(image);
   }
 }

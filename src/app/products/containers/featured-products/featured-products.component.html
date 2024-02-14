@@ -1,29 +1,31 @@
-<div class="relative bg-lime-50">
+<div class="relative bg-lime-50 w-full min-h-96 overflow-hidden">
   @for (
     product of featuredProducts$ | async;
     track product.id;
     let idx = $index
   ) {
-    @if (idx === selectedSlide) {
-      <app-product-details
-        [product]="product"
-        (addToCart)="addToCart($event)"
-      />
-    }
+    <app-product-details
+      [class.hidden]="idx != selectedSlide"
+      [product]="product"
+      (addToCart)="addToCart($event)"
+      @slideAnimation
+    />
   }
 
   <button
     type="button"
-    class="!absolute !top-1/2 !-translate-y-1/2 !-left-8 bg-lime-400 rounded-full w-12 h-12"
+    mat-icon-button
+    class="!absolute !top-1/2 !-translate-y-1/2 z-10"
     (click)="onPrevious()"
   >
-    <mat-icon class="!text-2xl">chevron_left</mat-icon>
+    <mat-icon class="scale-150">chevron_left</mat-icon>
   </button>
   <button
     type="button"
-    class="!absolute !top-1/2 !right-0 !-translate-y-1/2 bg-lime-400 rounded-full w-12 h-12"
+    mat-icon-button
+    class="!absolute !top-1/2 !right-0 !-translate-y-1/2 z-10"
     (click)="onNext()"
   >
-    <mat-icon class="text-3xl">chevron_right</mat-icon>
+    <mat-icon class="scale-150">chevron_right</mat-icon>
   </button>
 </div>

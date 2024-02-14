@@ -13,8 +13,8 @@ export class ProductsService {
 
   constructor() {}
 
-  getProducts(pageInfo: PageInfo) {
-    return this.http.get(
+  getProducts(pageInfo: PageInfo): Observable<{ products: Array<Product> }> {
+    return this.http.get<{ products: Array<Product> }>(
       `${BASE_URL}/products?limit=${pageInfo.limit}&skip=${pageInfo.skip}`,
     );
   }

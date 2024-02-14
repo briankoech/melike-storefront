@@ -1,9 +1,13 @@
 import { Injectable, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   selectCartItems,
   selectCartItemsCount,
+  selectCartTotal,
   selectFeaturedProducts,
+  selectFeaturedProductsCount,
   selectProducts,
   selectSelectedProduct,
 } from './products.selectors';
@@ -25,14 +29,21 @@ import { PageInfo, Product } from '../models';
 })
 export class ProductsFacade {
   private readonly store = inject(Store<ProductState>);
+  private snackbar = inject(MatSnackBar);
 
   readonly selectedProduct$: Observable<any> = this.store.select(
     selectSelectedProduct,
   );
   readonly products$: Observable<any> = this.store.select(selectProducts);
   readonly featuredProducts$ = this.store.select(selectFeaturedProducts);
+  readonly featuredProductsCount$ = this.store.select(
+    selectFeaturedProductsCount,
+  );
   readonly cartItems$ = this.store.select(selectCartItems);
   readonly cartItemsCount$ = this.store.select(selectCartItemsCount);
+  readonly cartTotal$ = this.store.select(selectCartTotal);
+
+  featuredProductsCount = toSignal<number>(this.featuredProductsCount$);
 
   loadFeaturedProducts(): void {
     this.store.dispatch(loadFeaturedProducts({ skip: 30, limit: 7 }));
@@ -48,6 +59,9 @@ export class ProductsFacade {
 
   addToCart(product: Product, quantity: number): void {
     this.store.dispatch(addToCart({ product, quantity }));
+    this.snackbar.open('Added to cart', 'Dismiss', {
+      duration: 1500,
+    });
   }
 
   removeFromCart({ id: productId }: Product): void {

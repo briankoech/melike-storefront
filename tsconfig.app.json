@@ -5,7 +5,8 @@
     "outDir": "./out-tsc/app",
     "types": [],
     "paths": {
-      "@services/*": ["./src/core/app/services/*"]
+      "@services/*": ["./src/app/core/services/*"],
+      "@animations/*": ["./src/app/core/animations/*"]
     }
   },
   "files": ["src/main.ts"],

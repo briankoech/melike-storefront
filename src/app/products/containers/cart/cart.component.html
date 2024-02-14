@@ -1,20 +1,26 @@
-<div>
+<div class="flex flex-col">
   <div class="grid grid-cols-12 bg-gray-100 p-3">
     <div></div>
 
-    <div></div>
+    <div class="hidden md:block col-span-1"></div>
 
-    <span class="col-span-6 font-semibold uppercase">product</span>
-    <span class="text-lime-900 font-semibold uppercase">Price</span>
+    <span class="col-span-4 md:col-span-6 font-semibold uppercase"
+      >product</span
+    >
+    <span class="text-lime-900 font-semibold uppercase col-span-2 md:col-span-1"
+      >Price</span
+    >
 
-    <span class="font-semibold uppercase col-span-2">Quantity</span>
+    <span class="font-semibold uppercase col-span-3 md:col-span-2"
+      >Quantity</span
+    >
 
-    <span class="font-semibold uppercase">Total</span>
+    <span class="col-span-1 md:col-span-1 font-semibold uppercase">Total</span>
   </div>
 
   @for (item of cartItems$ | async | keyvalue; track item.key) {
     <ng-container *ngIf="item.value as data">
-      <div class="grid grid-cols-12 p-3 items-center">
+      <div class="grid grid-cols-12 md:p-3 items-center">
         <div>
           <button
             mat-icon-button
@@ -25,18 +31,29 @@
           </button>
         </div>
 
-        <div class="relative h-10 w-10 overflow-hidden">
+        <div
+          class="relative h-10 max-w-10 overflow-hidden hidden md:block col-span-1"
+        >
           <img
             [src]="data.product.thumbnail"
             [alt]="data.product.title"
-            class="h-10"
+            class="object-cover h-10"
           />
         </div>
 
-        <div class="col-span-6">{{ data.product.title }}</div>
-        <span class="text-lime-900">{{ data.product.price | currency }}</span>
+        <div class="col-span-4 md:col-span-6">
+          <a
+            routerLink="/products/{{ data.product.id }}"
+            class="text-sky-500 hover:underline"
+          >
+            {{ data.product.title }}
+          </a>
+        </div>
+        <span class="text-lime-900 col-span-2 md:col-span-1">{{
+          data.product.price | currency
+        }}</span>
 
-        <div class="col-span-2 flex">
+        <div class="col-span-3 md:col-span-2 flex">
           <app-quantity-updater
             class="self-start"
             [count]="data.quantity"
@@ -45,7 +62,9 @@
           />
         </div>
 
-        <span>{{ data.product.price * data.quantity }}</span>
+        <span class="col-span-1 md:col-span-1 font-semibold text-lime-500">{{
+          data.product.price * data.quantity | currency
+        }}</span>
       </div>
     </ng-container>
   } @empty {
@@ -53,4 +72,26 @@
       Your cart is empty
     </div>
   }
+
+  <div class="mt-5 flex flex-col divide-y self-end w-full md:w-1/2">
+    <div class="bg-gray-200 text-center font-semibold p-3 text-lg">
+      Cart Totals
+    </div>
+    <div class="grid grid-cols-2 py-4 px-8">
+      <div class="font-semibold">Subtotal</div>
+      <div class="text-lime-700">
+        {{ cartTotal$ | async | currency }}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 py-4 px-8">
+      <div class="font-semibold">Total</div>
+      <div class="text-lime-700">
+        {{ cartTotal$ | async | currency }}
+      </div>
+    </div>
+    <button mat-flat-button type="" disabled class="!bg-lime-900">
+      <span class="text-white uppercase">Proceed to checkout</span>
+    </button>
+  </div>
 </div>
